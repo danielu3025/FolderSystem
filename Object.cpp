@@ -25,3 +25,7 @@ bool Object::deleteObj(){
 Object* Object::makeCopy(){
     return nullptr  ;
 }
+vector<Object*>Object::getContent(){
+    vector<Object*>x;
+    return x;
+}

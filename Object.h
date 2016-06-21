@@ -25,6 +25,7 @@ public:
     virtual void showContent();
     virtual bool deleteObj();
     virtual Object* makeCopy();
+    virtual vector<Object*> getContent();
 };
 
 

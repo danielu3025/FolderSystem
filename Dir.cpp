@@ -11,7 +11,6 @@ Dir::Dir(){
     name = " new-folder";
 }
 Dir::~Dir(){
-    cout<<name<<" distractor\n";
 }
 void Dir::setName(string txt){
     this->name = txt;
@@ -33,7 +32,6 @@ void Dir::showContent(){
     cout<<this->name<<"\n\t";
     for (int i = 0; i < content.size(); i++){
         content[i]->showContent();
-
     }
 }
 bool Dir::deleteObj(){
@@ -47,4 +45,7 @@ Object* Dir::makeCopy(){
         content[i]->makeCopy();
     }
     return clone;
+}
+vector<Object*> Dir::getContent(){
+    return this->content;
 }

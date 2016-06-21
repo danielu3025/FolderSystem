@@ -11,11 +11,11 @@
 #include "Dir.h"
 #include <stdio.h>
 class Root: Dir{
-public:
-    static Dir getInstance();
-    inline ~Root();
 private:
     static Dir* folder;
     Root();
+public:
+    static Dir getInstance();
+    inline ~Root();
 };
 #endif /* Root_h */

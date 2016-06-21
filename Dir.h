@@ -21,6 +21,7 @@ public:
     bool setContent(Object* obj);
     void showContent();
     bool deleteObj();
+    vector<Object*> getContent();
     Object* makeCopy();
 
 };
