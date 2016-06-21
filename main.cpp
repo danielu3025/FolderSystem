@@ -1,21 +1,7 @@
-//
-//  main.cpp
-//  folder system
-//
-//  Created by daniel luzgarten on 13/06/2016.
-//  Copyright © 2016 daniel luzgarten. All rights reserved.
-//
-
 // make type in objects for copying
 
 #include <iostream>
-#include "Dir.h"
-#include "File.h"
-#include "ClonAble.h"
-#include "Root.h"
-#include "DirBuilder.h"
-#include "FileBuilder.h"
-#include "ObjDirector.h"
+#include "Menu.h"
 #include <sstream>
 
 Object* ClonAble::dirType = 0;
