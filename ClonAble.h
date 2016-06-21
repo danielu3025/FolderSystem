@@ -1,11 +1,3 @@
-//
-//  ClonAble.hpp
-//  folder system
-//
-//  Created by daniel luzgarten on 13/06/2016.
-//  Copyright © 2016 daniel luzgarten. All rights reserved.
-//
-
 #ifndef ClonAble_h
 #define ClonAble_h
 #include <stdio.h>

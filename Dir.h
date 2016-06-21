@@ -1,11 +1,3 @@
-//
-//  Dir.hpp
-//  folder system
-//
-//  Created by daniel luzgarten on 13/06/2016.
-//  Copyright © 2016 daniel luzgarten. All rights reserved.
-//
-
 #ifndef Dir_h
 #define Dir_h
 
