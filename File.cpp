@@ -14,7 +14,7 @@ string File::getName(){
 void File::setContent(string txt){
     content = txt;
 }
-void File::showContent(){
+void File::showContent(int tabs){
     cout<<this->name<<endl;
 }
 bool File::deleteObj(){

@@ -11,7 +11,7 @@ public:
     void setName(string txt);
     string getName();
     bool setContent(Object* obj);
-    void showContent();
+    void showContent(int tabs);
     bool deleteObj();
     vector<Object*> getContent();
     Object* makeCopy();
