@@ -1,6 +1,6 @@
 #include "Dir.h"
 Dir::Dir(){
-    name = " new-folder";
+    name = "folder";
 }
 Dir::~Dir(){
 }

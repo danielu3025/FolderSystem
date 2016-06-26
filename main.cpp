@@ -37,6 +37,10 @@ int main(int argc, const char * argv[]) {
     
     Menu foldersystem ;
     foldersystem.program();
+    //Dir rooti = Root::getInstance();
+   // Object* zibi = &rooti;
+   // Dir* f ;
+   // f = dynamic_cast<Dir*>(zibi);
     
     
     

@@ -30,7 +30,7 @@ Object* findObj(string path,Dir Root){
             if (temp->getName() == finel) {
                 toRetun = temp;
                 cout<<"object found\n";
-                break;
+                return toRetun;
             }
             serch = pathList[++pIndex];
             list = temp->getContent();
@@ -61,11 +61,20 @@ Menu::Menu() {
 //program main function. the whole menu will run here
 void Menu::program() {
     Dir root = Root::getInstance();
-    
+    //Dir * folder = new Dir();
+    //folder->setName("Daniel");
+    //root.setContent(folder);
+    //Object* zibi = findObj("ROOT/Daniel", root);
+    //Object k = *zibi;
+    //Dir* f ;
+    //Object* pipi = &k;
+    //f = dynamic_cast<Dir*>(zibi);
+
     ClonAble::initialize();
     FileBuilder* fileBuilder = new (FileBuilder);
     DirBuilder* dirBuilder = new (DirBuilder);
     ObjDirector* director = nullptr;
+    
     while(inSystem){
         printMenu();
         cin >> choice;
@@ -76,73 +85,82 @@ void Menu::program() {
                 break;
             case 1:{
                 Object* temp = nullptr;
-                cout<< "Please write location to create directory or leave empty";
+                cout<< "Please write location to create directory or leave empty\n";
                 cin>>location;
-                temp = findObj(location,root);
-                if (temp == nullptr) {
-                    cout <<"drictory not found";
-                }
-                //if exist
-                //send to create dir
-                else{
-                    
-                    Dir* tempFolder  = nullptr;
-                    try {
-                        /*
+                if(location != "\"\"") {
+                    temp = findObj(location,root);
+                    if (temp == nullptr) {
+                        cout <<"drictory not found";
+                    }
+                    //if exist
+                    //send to create dir
+                    else{
                         
-                         */
-                        tempFolder = dynamic_cast<Dir*>(temp);
-                        if (tempFolder == nullptr) {
-                            throw exception_ptr();
-                        }
-                        else{
-                            director = new ObjDirector(dirBuilder);
-                            if (!(tempFolder->setContent(director->getObj()))){
-                                cout<<"problem  while creating\n";
+                        try {
+                            Dir* tempFolder = dynamic_cast<Dir*>(temp);
+                            //tempFolder = dynamic_cast<Dir*>(temp);
+                            if (tempFolder == nullptr) {
+                                throw exception_ptr();
                             }
                             else{
-                                cout<<"sucsess\n";
+                                director = new ObjDirector(dirBuilder);
+                                if (!(tempFolder->setContent(director->getObj()))){
+                                    cout<<"problem  while creating\n";
+                                }
+                                else{
+                                    cout<<"sucsess\n";
+                                }
                             }
+                        } catch (exception_ptr) {
+                            cout<<"problem  while creating\n";
                         }
-                    } catch (exception_ptr) {
-                        cout<<"problem  while creating\n";
+                        
                     }
-                
+                }
+                else{
+                    director = new ObjDirector(dirBuilder);
+                    root.setContent(director->getObj());
                 }
                 break;
+
             }
             case 2:{
                 Object* temp = nullptr;
-                cout<< "Please write location to create file or leave empty";
+                cout<< "Please write location to create directory or leave empty\n";
                 cin>>location;
-                temp = findObj(location,root);
-                if (temp == nullptr) {
-                    cout <<"drictory not found";
-                }
-                //if exist
-                //send to create dir
-                else{
-                    Dir* tempFolder  = nullptr;
-                    try {
-                        tempFolder = dynamic_cast<Dir*>(temp);
-                        if (tempFolder == nullptr) {
-                            throw exception_ptr();
-                        }
-                        else{
-                            director = new ObjDirector(fileBuilder);
-                            if (!(tempFolder->setContent(director->getObj()))){
-                                cout<<"problem  while creating\n";
+                if(location != "\"\"") {
+                    temp = findObj(location,root);
+                    if (temp == nullptr) {
+                        cout <<"drictory not found";
+                    }
+                    //if exist
+                    //send to create dir
+                    else{
+                        
+                        try {
+                            Dir* tempFolder = dynamic_cast<Dir*>(temp);
+                            if (tempFolder == nullptr) {
+                                throw exception_ptr();
                             }
                             else{
-                                cout<<"sucsess\n";
+                                director = new ObjDirector(fileBuilder);
+                                if (!(tempFolder->setContent(director->getObj()))){
+                                    cout<<"problem  while creating\n";
+                                }
+                                else{
+                                    cout<<"sucsess\n";
+                                }
                             }
+                        } catch (exception_ptr) {
+                            cout<<"problem  while creating\n";
                         }
-                    } catch (exception_ptr) {
-                        cout<<"problem  while creating\n";
+                        
                     }
                 }
-                //if exist
-                //send to create file
+                else{
+                    director = new ObjDirector(fileBuilder);
+                    root.setContent(director->getObj());
+                }
                 break;
             }
             case 3:{
@@ -162,8 +180,13 @@ void Menu::program() {
                         fatherFolderString = fatherFolderString + fatherFolderVector[i];
                     }
                    tempFather = findObj(fatherFolderString, root);
-                    fatherFolder->setContent(temp->makeCopy());
-                    
+                    if(fatherFolderString == "ROOT"){
+                        root.setContent(temp->makeCopy());
+                    }
+                    else{
+                        fatherFolder=dynamic_cast<Dir*>(tempFather);
+                        fatherFolder->setContent(temp->makeCopy());
+                    }
                 }
                 else{
                     cout <<"object not found";
