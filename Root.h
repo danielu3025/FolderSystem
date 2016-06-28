@@ -4,8 +4,8 @@
 #include <stdio.h>
 class Root: Dir{
 private:
-    static Dir* folder;
     Root();
+    static Dir* folder;
 public:
     static Dir getInstance();
     inline ~Root();
