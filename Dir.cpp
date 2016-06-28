@@ -26,7 +26,7 @@ void Dir::showContent(int tabs){
     }
     cout<<this->name<<"\n";
     for (int i = 0; i < content.size(); i++){
-        content[i]->showContent(tabs++);
+        content[i]->showContent(++tabs);
     }
 }
 bool Dir::deleteObj(){
