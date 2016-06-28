@@ -14,7 +14,7 @@ public:
     virtual ~Object();
     virtual void setName(string txt)  ;
     virtual string getName();
-    virtual void showContent();
+    virtual void showContent(int tabs);
     virtual bool deleteObj();
     virtual Object* makeCopy();
     virtual vector<Object*> getContent();

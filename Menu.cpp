@@ -2,6 +2,7 @@
 #include <iostream>
 #include <sstream>
 #include "Root.h"
+#include <string>
 
 Object* ClonAble::dirType = 0;
 Object* ClonAble::fileType = 0;
@@ -17,25 +18,25 @@ vector<string>split(string str, char delimiter) {
     return internal;
 }
 Object* findObj(string path,Dir Root){
-    Object* toRetun = nullptr;
+    Object* toReturn = nullptr;
     Object* temp = &Root;
     int pIndex = 0;
     vector<string>pathList = split(path, '/');
-    string finel = pathList[pathList.size()-1];
-    string serch = pathList[pIndex];
+    string final = pathList[pathList.size()-1];
+    string search = pathList[pIndex];
     vector<Object*>list = temp->getContent();
     bool found = false;
     while (!found) {
-        if (serch == temp->getName()) {
-            if (temp->getName() == finel) {
-                toRetun = temp;
+        if (search == temp->getName()) {
+            if (temp->getName() == final) {
+                toReturn = temp;
                 cout<<"object found\n";
-                return toRetun;
+                return toReturn;
             }
-            serch = pathList[++pIndex];
+            search = pathList[++pIndex];
             list = temp->getContent();
             for (int i =0; i<(temp->getContent()).size(); i++) {
-                if (serch == list[i]->getName()) {
+                if (search == list[i]->getName()) {
                     temp = list[i];
                     found = false;
                     break;
@@ -47,7 +48,7 @@ Object* findObj(string path,Dir Root){
             break;
         }
     }
-    return toRetun;
+    return toReturn;
 }
 
 
@@ -87,10 +88,10 @@ void Menu::program() {
                 Object* temp = nullptr;
                 cout<< "Please write location to create directory or leave empty\n";
                 cin>>location;
-                if(location != "\"\"") {
+                if(location != "\"\"" || location != "" || location != "ROOT") {
                     temp = findObj(location,root);
                     if (temp == nullptr) {
-                        cout <<"drictory not found";
+                        cout <<"directory not found";
                     }
                     //if exist
                     //send to create dir
@@ -108,7 +109,7 @@ void Menu::program() {
                                     cout<<"problem  while creating\n";
                                 }
                                 else{
-                                    cout<<"sucsess\n";
+                                    cout<<"success\n";
                                 }
                             }
                         } catch (exception_ptr) {
@@ -131,7 +132,7 @@ void Menu::program() {
                 if(location != "\"\"") {
                     temp = findObj(location,root);
                     if (temp == nullptr) {
-                        cout <<"drictory not found";
+                        cout <<"directory not found";
                     }
                     //if exist
                     //send to create dir
@@ -148,7 +149,7 @@ void Menu::program() {
                                     cout<<"problem  while creating\n";
                                 }
                                 else{
-                                    cout<<"sucsess\n";
+                                    cout<<"success\n";
                                 }
                             }
                         } catch (exception_ptr) {
@@ -177,7 +178,8 @@ void Menu::program() {
                     fatherFolderVector.pop_back() ;
                     Dir* fatherFolder;
                     for (int i =0; i<fatherFolderVector.size(); i++) {
-                        fatherFolderString = fatherFolderString + fatherFolderVector[i];
+                        //fatherFolderString = fatherFolderString + fatherFolderVector[i];
+                                                                // we need to fix the line since it's not working in clion
                     }
                    tempFather = findObj(fatherFolderString, root);
                     if(fatherFolderString == "ROOT"){
@@ -203,8 +205,7 @@ void Menu::program() {
             case 5:
                 cout<< "Please write the location of the dir you want to print it's content or leave empty to print the content of the root";
                 cin>>location;
-                //if exist
-                //print content
+                root.showContent(1);
                 break;
             case 6:
                 //print all content of the root and children's to file

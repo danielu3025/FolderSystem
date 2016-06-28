@@ -20,10 +20,13 @@ bool Dir::setContent(Object* obj){
     return true;
 
 }
-void Dir::showContent(){
-    cout<<this->name<<"\n\t";
+void Dir::showContent(int tabs){
+    for(int i=0; i<tabs; i++){
+        cout<<"\t";
+    }
+    cout<<this->name<<"\n";
     for (int i = 0; i < content.size(); i++){
-        content[i]->showContent();
+        content[i]->showContent(tabs++);
     }
 }
 bool Dir::deleteObj(){

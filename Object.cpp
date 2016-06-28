@@ -8,7 +8,7 @@ void Object::setName(string txt){
 string Object::getName(){
     return "object";
 }
-void Object::showContent(){
+void Object::showContent(int tabs){
     
 }
 bool Object::deleteObj(){
