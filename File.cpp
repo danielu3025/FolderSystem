@@ -3,7 +3,7 @@ File::File(){
     name = "new-file";
 }
 File::~File(){
-    cout<<"File distractor\n";
+    cout<< "~" << this->name << endl;
 }
 void File::setName(string txt){
     name = txt;
@@ -15,10 +15,13 @@ void File::setContent(string txt){
     content = txt;
 }
 void File::showContent(int tabs){
-    cout<<this->name<<endl;
+    for(int i=0; i<tabs; i++){
+        cout<<"\t";
+    }
+    cout<<this->name<<"\n";
 }
-bool File::deleteObj(){
-    return true;
+void File::deleteObj(){
+    delete this;
 }
 Object* File::makeCopy(){
     cout<<"copy "<<this->name<<endl;

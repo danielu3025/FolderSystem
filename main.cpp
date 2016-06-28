@@ -6,7 +6,27 @@
 
 
 int main(int argc, const char * argv[]) {
-     
+    Dir root = Root::getInstance();
+    Dir *s = new Dir;
+    s->setName("shahar");
+    root.setContent(s);
+    Dir *l = new Dir;
+    l->setName("liron");
+    Dir *e = new Dir;
+    e->setName("eyal");
+    s->setContent(l);
+    s->setContent(e);
+    Dir *b = new Dir;
+    b->setName("baba");
+    File *f = new File;
+    f->setName("ff");
+    f->setContent("ffff");
+    root.setContent(f);
+    root.setContent(b);
+    root.showContent(0);
+
+    root.deleteObj();
+
 /*
     
     Object* obj = ClonAble::getDirType();
@@ -35,8 +55,8 @@ int main(int argc, const char * argv[]) {
      
     */
     
-    Menu foldersystem ;
-    foldersystem.program();
+   // Menu foldersystem ;
+    //foldersystem.program();
     //Dir rooti = Root::getInstance();
    // Object* zibi = &rooti;
    // Dir* f ;

@@ -12,7 +12,7 @@ public:
     string getName();
     bool setContent(Object* obj);
     void showContent(int tabs);
-    bool deleteObj();
+    void deleteObj();
     vector<Object*> getContent();
     Object* makeCopy();
 

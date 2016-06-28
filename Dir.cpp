@@ -3,6 +3,7 @@ Dir::Dir(){
     name = "folder";
 }
 Dir::~Dir(){
+    cout<< "~" << this->name << endl;
 }
 void Dir::setName(string txt){
     this->name = txt;
@@ -26,11 +27,16 @@ void Dir::showContent(int tabs){
     }
     cout<<this->name<<"\n";
     for (int i = 0; i < content.size(); i++){
-        content[i]->showContent(tabs++);
+        content[i]->showContent(tabs+1);
     }
 }
-bool Dir::deleteObj(){
-    return true;
+void Dir::deleteObj(){
+    for (int i = 0; i < content.size(); i++){
+        content[i]->deleteObj();
+    }
+    if(this->name!="ROOT") {
+        delete this;
+    }
 }
 Object* Dir::makeCopy(){
     cout<<"copy "<<this->name<<"\n";

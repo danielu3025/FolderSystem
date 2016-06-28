@@ -3,6 +3,7 @@
 #include <sstream>
 #include "Root.h"
 #include <string>
+#include <exception>
 
 Object* ClonAble::dirType = 0;
 Object* ClonAble::fileType = 0;
@@ -10,15 +11,15 @@ vector<string>split(string str, char delimiter) {
     vector<string> internal;
     stringstream ss(str); // Turn the string into a stream.
     string tok;
-    
+
     while(getline(ss, tok, delimiter)) {
         internal.push_back(tok);
     }
-    
+
     return internal;
 }
 Object* findObj(string path,Dir Root){
-    Object* toReturn = nullptr;
+    Object* toReturn = NULL;
     Object* temp = &Root;
     int pIndex = 0;
     vector<string>pathList = split(path, '/');
@@ -74,8 +75,8 @@ void Menu::program() {
     ClonAble::initialize();
     FileBuilder* fileBuilder = new (FileBuilder);
     DirBuilder* dirBuilder = new (DirBuilder);
-    ObjDirector* director = nullptr;
-    
+    ObjDirector* director = NULL;
+
     while(inSystem){
         printMenu();
         cin >> choice;
@@ -85,23 +86,23 @@ void Menu::program() {
                 inSystem=false;
                 break;
             case 1:{
-                Object* temp = nullptr;
+                Object* temp = NULL;
                 cout<< "Please write location to create directory or leave empty\n";
                 cin>>location;
                 if(location != "\"\"" || location != "" || location != "ROOT") {
                     temp = findObj(location,root);
-                    if (temp == nullptr) {
+                    if (temp == NULL) {
                         cout <<"directory not found";
                     }
                     //if exist
                     //send to create dir
                     else{
-                        
+
                         try {
                             Dir* tempFolder = dynamic_cast<Dir*>(temp);
                             //tempFolder = dynamic_cast<Dir*>(temp);
-                            if (tempFolder == nullptr) {
-                                throw exception_ptr();
+                            if (tempFolder == NULL) {
+                                throw exception();
                             }
                             else{
                                 director = new ObjDirector(dirBuilder);
@@ -112,10 +113,10 @@ void Menu::program() {
                                     cout<<"success\n";
                                 }
                             }
-                        } catch (exception_ptr) {
+                        } catch (exception) {
                             cout<<"problem  while creating\n";
                         }
-                        
+
                     }
                 }
                 else{
@@ -126,22 +127,22 @@ void Menu::program() {
 
             }
             case 2:{
-                Object* temp = nullptr;
+                Object* temp = NULL;
                 cout<< "Please write location to create directory or leave empty\n";
                 cin>>location;
-                if(location != "\"\"") {
+                if(location != "\"\"" && location !="" && location != "ROOT") {
                     temp = findObj(location,root);
-                    if (temp == nullptr) {
+                    if (temp == NULL) {
                         cout <<"directory not found";
                     }
                     //if exist
                     //send to create dir
                     else{
-                        
+
                         try {
                             Dir* tempFolder = dynamic_cast<Dir*>(temp);
-                            if (tempFolder == nullptr) {
-                                throw exception_ptr();
+                            if (tempFolder == NULL) {
+                                throw exception();
                             }
                             else{
                                 director = new ObjDirector(fileBuilder);
@@ -152,10 +153,10 @@ void Menu::program() {
                                     cout<<"success\n";
                                 }
                             }
-                        } catch (exception_ptr) {
+                        } catch (exception) {
                             cout<<"problem  while creating\n";
                         }
-                        
+
                     }
                 }
                 else{
@@ -165,15 +166,15 @@ void Menu::program() {
                 break;
             }
             case 3:{
-                Object* temp = nullptr;
-                Object* tempFather = nullptr;
+                Object* temp = NULL;
+                Object* tempFather = NULL;
                 cout<<"enter object to copy:";
                 cin>>location;
                 vector<string> fatherFolderVector;
                 string fatherFolderString;
                 //copy files to same location
                 temp = findObj(location, root);
-                if (temp != nullptr) {
+                if (temp != NULL) {
                     fatherFolderVector = split(location, '/');
                     fatherFolderVector.pop_back() ;
                     Dir* fatherFolder;
@@ -205,7 +206,7 @@ void Menu::program() {
             case 5:
                 cout<< "Please write the location of the dir you want to print it's content or leave empty to print the content of the root";
                 cin>>location;
-                root.showContent(1);
+                root.showContent(0);
                 break;
             case 6:
                 //print all content of the root and children's to file

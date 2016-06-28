@@ -11,8 +11,7 @@ string Object::getName(){
 void Object::showContent(int tabs){
     
 }
-bool Object::deleteObj(){
-    return false;
+void Object::deleteObj(){
 }
 Object* Object::makeCopy(){
     return nullptr  ;

@@ -12,7 +12,7 @@ public:
     string getName();
     void setContent(string txt);
     void showContent(int tabs);
-    bool deleteObj();
+    void deleteObj();
     Object* makeCopy();
 };
 #endif /* File_h */
