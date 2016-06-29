@@ -62,19 +62,10 @@ Menu::Menu() {
 
 //program main function. the whole menu will run here
 void Menu::program() {
+    int choice = 0;
     Dir root = Root::getInstance();
-    //Dir * folder = new Dir();
-    //folder->setName("Daniel");
-    //root.setContent(folder);
-    //Object* zibi = findObj("ROOT/Daniel", root);
-    //Object k = *zibi;
-    //Dir* f ;
-    //Object* pipi = &k;
-    //f = dynamic_cast<Dir*>(zibi);
-
+    
     ClonAble::initialize();
-    FileBuilder* fileBuilder = new (FileBuilder);
-    DirBuilder* dirBuilder = new (DirBuilder);
     ObjDirector* director = NULL;
 
     while(inSystem){
@@ -84,6 +75,9 @@ void Menu::program() {
             case 0:
                 cout<<"Bye...\n";
                 inSystem=false;
+                cin.clear();
+                cin.ignore();
+                
                 break;
             case 1:{
                 Object* temp = NULL;
@@ -100,11 +94,11 @@ void Menu::program() {
 
                         try {
                             Dir* tempFolder = dynamic_cast<Dir*>(temp);
-                            //tempFolder = dynamic_cast<Dir*>(temp);
                             if (tempFolder == NULL) {
                                 throw exception();
                             }
                             else{
+                                DirBuilder* dirBuilder = new (DirBuilder);
                                 director = new ObjDirector(dirBuilder);
                                 if (!(tempFolder->setContent(director->getObj()))){
                                     cout<<"problem  while creating\n";
@@ -120,9 +114,12 @@ void Menu::program() {
                     }
                 }
                 else{
+                    DirBuilder* dirBuilder = new (DirBuilder);
                     director = new ObjDirector(dirBuilder);
                     root.setContent(director->getObj());
                 }
+                cin.clear();
+                cin.ignore();
                 break;
 
             }
@@ -145,6 +142,7 @@ void Menu::program() {
                                 throw exception();
                             }
                             else{
+                                FileBuilder* fileBuilder = new (FileBuilder);
                                 director = new ObjDirector(fileBuilder);
                                 if (!(tempFolder->setContent(director->getObj()))){
                                     cout<<"problem  while creating\n";
@@ -160,9 +158,12 @@ void Menu::program() {
                     }
                 }
                 else{
+                    FileBuilder* fileBuilder = new (FileBuilder);
                     director = new ObjDirector(fileBuilder);
                     root.setContent(director->getObj());
                 }
+                cin.clear();
+                cin.ignore();
                 break;
             }
             case 3:{
@@ -179,8 +180,9 @@ void Menu::program() {
                     fatherFolderVector.pop_back() ;
                     Dir* fatherFolder;
                     for (int i =0; i<fatherFolderVector.size(); i++) {
-                        //fatherFolderString = fatherFolderString + fatherFolderVector[i];
-                                                                // we need to fix the line since it's not working in clion
+                    //fatherFolderString = fatherFolderString + fatherFolderVector[i];
+                    // we need to fix the line since it's not working in clion >>> bayzim sheli ha clion
+                        
                     }
                    tempFather = findObj(fatherFolderString, root);
                     if(fatherFolderString == "ROOT"){
@@ -195,6 +197,8 @@ void Menu::program() {
                     cout <<"object not found";
                 }
                 //add obj pointer to file/dir name
+                cin.clear();
+                cin.ignore();
                 break;
             }
             case 4:
@@ -202,11 +206,15 @@ void Menu::program() {
                 cin>>location;
                 //if exist
                 //delete file/dir
+                cin.clear();
+                cin.ignore();
                 break;
             case 5:
-                cout<< "Please write the location of the dir you want to print it's content or leave empty to print the content of the root";
+                cout<< "Please write the location of the dir you want to print it's content or leave empty to print the content of the root:\n";
                 cin>>location;
                 root.showContent(0);
+                cin.clear();
+                cin.ignore();
                 break;
             case 6:
                 //print all content of the root and children's to file
@@ -218,6 +226,11 @@ void Menu::program() {
                 break;
         }
     }
+}
+Menu::~Menu(){
+    delete ClonAble::getDirType();
+    delete ClonAble::getFileType();
+    
 }
 
 void Menu::printMenu() {
