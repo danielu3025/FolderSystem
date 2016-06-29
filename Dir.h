@@ -11,9 +11,8 @@ public:
     void setName(string txt);
     string getName();
     bool setContent(Object* obj);
-    void showContent(int space);
+    void showContent(int tabs);
     void deleteObj();
-    void printToFile(ofstream &os, int space);
     vector<Object*> getContent();
     Object* makeCopy();
 

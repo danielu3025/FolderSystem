@@ -3,6 +3,7 @@ File::File(){
     name = "new-file";
 }
 File::~File(){
+    cout<< "~" << this->name << endl;
 }
 void File::setName(string txt){
     name = txt;
@@ -13,19 +14,12 @@ string File::getName(){
 void File::setContent(string txt){
     content = txt;
 }
-void File::showContent(int space){
-    for(int i=0; i<space; i++){
-        cout<<"   ";
+void File::showContent(int tabs){
+    for(int i=0; i<tabs; i++){
+        cout<<"\t";
     }
     cout<<this->name<<"\n";
 }
-void File::printToFile(ofstream &of, int space) {
-    for(int i=0; i<space; i++){
-        of<<"   ";
-    }
-    of<<this->name<<"\n";
-}
-
 void File::deleteObj(){
     delete this;
 }
