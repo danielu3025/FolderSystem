@@ -19,7 +19,6 @@ public:
     static Object* getFileType(){
         return fileType->makeCopy();
     }
-    ~ClonAble() ;
     
 };
 
