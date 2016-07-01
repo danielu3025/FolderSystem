@@ -51,7 +51,40 @@ Object* findObj(string path,Dir Root){
     }
     return toReturn;
 }
-
+Object* findObjFather(string path,Dir Root){
+    Object* toReturn = NULL;
+    Object* temp = &Root;
+    int pIndex = 0;
+    vector<string>pathList = split(path, '/');
+    pathList.pop_back();
+    string final = pathList[pathList.size()-1];
+    string search = pathList[pIndex];
+    vector<Object*>list = temp->getContent();
+    bool found = false;
+    while (!found) {
+        if (search == temp->getName()) {
+            if (temp->getName() == final) {
+                toReturn = temp;
+                cout<<"object found\n";
+                return toReturn;
+            }
+            search = pathList[++pIndex];
+            list = temp->getContent();
+            for (int i =0; i<(temp->getContent()).size(); i++) {
+                if (search == list[i]->getName()) {
+                    temp = list[i];
+                    found = false;
+                    break;
+                }
+                found = true;
+            }
+        }
+        else{
+            break;
+        }
+    }
+    return toReturn;
+}
 
 void Menu::setInSystem(bool inSystem) {
     this->inSystem = inSystem;
@@ -172,20 +205,15 @@ void Menu::program() {
                 cout<<"enter object to copy:";
                 cin>>location;
                 vector<string> fatherFolderVector;
-                string fatherFolderString;
+                fatherFolderVector  = split(location, '/');
+                fatherFolderVector.pop_back();
                 //copy files to same location
                 temp = findObj(location, root);
                 if (temp != NULL) {
-                    fatherFolderVector = split(location, '/');
-                    fatherFolderVector.pop_back() ;
                     Dir* fatherFolder;
-                    for (int i =0; i<fatherFolderVector.size(); i++) {
-                    //fatherFolderString = fatherFolderString + fatherFolderVector[i];
-                    // we need to fix the line since it's not working in clion >>> bayzim sheli ha clion
-                        
-                    }
-                   tempFather = findObj(fatherFolderString, root);
-                    if(fatherFolderString == "ROOT"){
+                   tempFather = findObjFather(location, root);
+                
+                    if( fatherFolderVector[fatherFolderVector.size()-1] == "ROOT"){
                         root.setContent(temp->makeCopy());
                     }
                     else{
@@ -201,7 +229,7 @@ void Menu::program() {
                 cin.ignore();
                 break;
             }
-            case 4:
+            case 4:{
                 cout<< "Please write location to delete with the file/dir name at the end";
                 cin>>location;
                 //if exist
@@ -224,6 +252,7 @@ void Menu::program() {
                 cin.ignore();
                 cout << "Not a Valid Choice. \n" << "Choose again.\n";
                 break;
+            }
         }
     }
 }
