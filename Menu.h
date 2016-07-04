@@ -16,13 +16,15 @@ using namespace std;
 class Menu {
 private:
     bool inSystem;
+    char choice;
     string location;
+    ofstream myFile;
 public:
+    ~Menu();
     void setInSystem(bool inSystem);
     Menu();
     void program();
     void printMenu();
-    ~Menu();
 };
 
 

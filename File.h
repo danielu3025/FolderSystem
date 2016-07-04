@@ -11,8 +11,9 @@ public:
     void setName(string txt);
     string getName();
     void setContent(string txt);
-    void showContent(int tabs);
+    void showContent(int space);
     void deleteObj();
     Object* makeCopy();
+    void printToFile(ofstream &of, int space);
 };
 #endif /* File_h */
