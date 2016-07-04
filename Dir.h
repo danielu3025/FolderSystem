@@ -11,10 +11,10 @@ public:
     void setName(string txt);
     string getName();
     bool setContent(Object* obj);
-    void showContent(int tabs);
+    void showContent(int space);
     void deleteObj();
-    vector<Object*> getContent();
+    void printToFile(ofstream &os, int space);
+    vector<Object *> getContent();
     Object* makeCopy();
-
 };
 #endif /* Dir_h */

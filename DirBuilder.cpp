@@ -7,5 +7,5 @@ Object* DirBuilder::getObj(){
     cout<<"enter Folder name:";
     cin>>name;
     obj->setName(name);
-    return  obj;
+    return obj;
 }

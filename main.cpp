@@ -6,8 +6,8 @@
 
 
 int main(int argc, const char * argv[]) {
-    //Dir root = Root::getInstance();
-    /*Dir *s = new Dir;
+/*    Dir root = Root::getInstance();
+    Dir *s = new Dir;
     s->setName("shahar");
     root.setContent(s);
     Dir *l = new Dir;
@@ -24,10 +24,14 @@ int main(int argc, const char * argv[]) {
     root.setContent(f);
     root.setContent(b);
     root.showContent(0);
+    ofstream myfile;
+    myfile.open ("systemContent");
+    root.printToFile(myfile,0);
+    myfile.close();
+    root.deleteObj();*/
 
-    root.deleteObj();
 
-
+/*
     
     Object* obj = ClonAble::getDirType();
     Dir* home = dynamic_cast<Dir*>(obj);
@@ -38,7 +42,7 @@ int main(int argc, const char * argv[]) {
     root.setContent(home);
     home->setContent(&hello);
     
-    root.showContent();
+    root.showContent(0);
     
     Object* user; user = home->makeCopy();
     user->setName("user");
