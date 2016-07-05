@@ -1,6 +1,7 @@
 #include "File.h"
 File::File(){
     name = "new-file";
+    setKind(true);
 }
 File::~File(){
 }

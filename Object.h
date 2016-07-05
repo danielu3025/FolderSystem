@@ -12,6 +12,7 @@ using namespace std;
 
 class Object{
 public:
+    bool isAfile = false;
     string name;
     virtual void printToFile(ofstream &os, int space);
     virtual ~Object();
@@ -21,6 +22,8 @@ public:
     virtual void deleteObj();
     virtual Object* makeCopy();
     virtual vector<Object*> getContent();
+    virtual bool gekind();
+    virtual void setKind(bool status);
 };
 
 

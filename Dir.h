@@ -15,6 +15,7 @@ public:
     void deleteObj();
     void printToFile(ofstream &os, int space);
     vector<Object *> getContent();
+    void replaceVec(vector<Object*> vec);
     Object* makeCopy();
 };
 #endif /* Dir_h */

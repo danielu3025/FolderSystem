@@ -34,6 +34,7 @@ void Dir::deleteObj(){
         content[i]->deleteObj();
     }
     if(this->name!="ROOT") {
+        vector<Object*>().swap(content);
         delete this;
     }
 }
@@ -64,4 +65,7 @@ void Dir::printToFile(ofstream &of, int space) {
     }
     of.close();
 }
-
+void Dir::replaceVec(vector<Object *> vec) {
+    this->content.clear();
+    this->content=vec;
+}
