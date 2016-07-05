@@ -21,7 +21,11 @@ private:
     ofstream myFile;
 public:
     ~Menu();
+    Object* findObj(string path,Dir Root);
+    Object* findObjFather(string path,Dir Root);
     void setInSystem(bool inSystem);
+    bool seeIfExist(string objName, Dir Root);
+    vector<string>split(string str, char delimiter);
     Menu();
     void program();
     void printMenu();

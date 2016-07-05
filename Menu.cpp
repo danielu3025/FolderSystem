@@ -7,86 +7,6 @@
 
 Object* ClonAble::dirType = 0;
 Object* ClonAble::fileType = 0;
-vector<string>split(string str, char delimiter) {
-    vector<string> internal;
-    stringstream ss(str); // Turn the string into a stream.
-    string tok;
-
-    while(getline(ss, tok, delimiter)) {
-        internal.push_back(tok);
-    }
-
-    return internal;
-}
-Object* findObj(string path,Dir Root){
-    Object* toReturn = NULL;
-    Object* temp = &Root;
-    int pIndex = 0;
-    vector<string>pathList = split(path, '/');
-    string final = pathList[pathList.size()-1];
-    string search = pathList[pIndex];
-    vector<Object*>list = temp->getContent();
-    bool found = false;
-    while (!found) {
-        if (search == temp->getName()) {
-            if (temp->getName() == final) {
-                toReturn = temp;
-                cout<<"object found\n";
-                return toReturn;
-            }
-            search = pathList[++pIndex];
-            list = temp->getContent();
-            for (int i =0; i<(temp->getContent()).size(); i++) {
-                if (search == list[i]->getName()) {
-                    temp = list[i];
-                    found = false;
-                    break;
-                }
-                found = true;
-            }
-        }
-        else{
-            break;
-        }
-    }
-    return toReturn;
-}
-
-Object* findObjFather(string path,Dir Root){
-    Object* toReturn = NULL;
-    Object* temp = &Root;
-    int pIndex = 0;
-    vector<string>pathList = split(path, '/');
-    pathList.pop_back();
-    string final = pathList[pathList.size()-1];
-    string search = pathList[pIndex];
-    vector<Object*>list = temp->getContent();
-    bool found = false;
-    while (!found) {
-        if (search == temp->getName()) {
-            if (temp->getName() == final) {
-                toReturn = temp;
-                cout<<"object found\n";
-                return toReturn;
-            }
-            search = pathList[++pIndex];
-            list = temp->getContent();
-            for (int i =0; i<(temp->getContent()).size(); i++) {
-                if (search == list[i]->getName()) {
-                    temp = list[i];
-                    found = false;
-                    break;
-                }
-                found = true;
-            }
-        }
-        else{
-            break;
-        }
-    }
-    return toReturn;
-}
-
 
 void Menu::setInSystem(bool inSystem) {
     this->inSystem = inSystem;
@@ -107,6 +27,8 @@ void Menu::program() {
         cin >>choice;
         switch(choice){
             case '1': {
+                delete director;
+                delete temp;
                 cout << "Bye...\n";
                 inSystem = false;
                 cin.clear();
@@ -131,6 +53,9 @@ void Menu::program() {
                                 cout << "problem  while creating\n";
                             }
                             else {
+                                tempFolder = NULL;
+                                delete tempFolder;
+                                delete dirBuilder;
                                 cout << "success\n";
                             }
                         }
@@ -143,6 +68,7 @@ void Menu::program() {
                     DirBuilder *dirBuilder = new (DirBuilder);
                     director = new ObjDirector(dirBuilder);
                     root.setContent(director->getObj());
+                    delete dirBuilder;
                 }
                 cin.clear();
                 cin.ignore();
@@ -166,6 +92,9 @@ void Menu::program() {
                                 cout << "problem  while creating\n";
                             }
                             else {
+                                tempFolder = NULL;
+                                delete tempFolder;
+                                delete fileBuilder;
                                 cout << "success\n";
                             }
                         }
@@ -178,9 +107,12 @@ void Menu::program() {
                     FileBuilder *fileBuilder = new (FileBuilder);
                     director = new ObjDirector(fileBuilder);
                     root.setContent(director->getObj());
+                    fileBuilder=NULL;
+                    delete fileBuilder;
                 }
                 cin.clear();
                 cin.ignore();
+
                 break;
             }
             case '4': {
@@ -221,6 +153,11 @@ void Menu::program() {
                 //add obj pointer to file/dir name
                 cin.clear();
                 cin.ignore();
+                tempFather = NULL;
+                delete tempFather;
+                prototype = NULL;
+                delete prototype;
+                fatherFolderVector.clear();
                 break;
             }
             case '5': {
@@ -230,7 +167,6 @@ void Menu::program() {
                 cout << "write location:";
                 cin >> location;
                 if (location != "\"\"" && location != "" && location != "ROOT") {
-                    //what happen if written wrong location
                     tempFather = (Dir*)findObjFather(location, root);
                     temp = findObj(location, root);
                     t=tempFather->getContent();
@@ -252,15 +188,17 @@ void Menu::program() {
                                 }
                             }
                         }
-                        cout << temp->getName() << " is deleted\n";
                         temp->deleteObj();
                     }
                 } else {
-                    cout << root.getName() << " is deleted\n";
+                    root.getContent().clear();
                     root.deleteObj();
                 }
                 cin.clear();
                 cin.ignore();
+                tempFather=NULL;
+                delete tempFather;
+                t.clear();
                 break;
             }
                 case '6':{
@@ -311,4 +249,93 @@ void Menu::printMenu() {
         cout << " 6 - print object content.\n";
         cout << " 7 - print root and children's content to file.\n";
         cout << "what do you wish to do?\n";
+}
+
+bool Menu::seeIfExist(string objName, Dir Root) {
+    for(int i=0; i<(Root.getContent().size()); i++){
+        if (Root.getName() == objName)
+            return true;
+    }
+    return false;
+}
+
+Object *Menu::findObjFather(string path, Dir Root) {
+    Object* toReturn = NULL;
+    Object* temp = &Root;
+    int pIndex = 0;
+    vector<string>pathList = split(path, '/');
+    pathList.pop_back();
+    string final = pathList[pathList.size()-1];
+    string search = pathList[pIndex];
+    vector<Object*>list = temp->getContent();
+    bool found = false;
+    while (!found) {
+        if (search == temp->getName()) {
+            if (temp->getName() == final) {
+                toReturn = temp;
+                cout<<"object found\n";
+                return toReturn;
+            }
+            search = pathList[++pIndex];
+            list = temp->getContent();
+            for (int i =0; i<(temp->getContent()).size(); i++) {
+                if (search == list[i]->getName()) {
+                    temp = list[i];
+                    found = false;
+                    break;
+                }
+                found = true;
+            }
+        }
+        else{
+            break;
+        }
+    }
+    return toReturn;
+}
+
+Object *Menu::findObj(string path, Dir Root) {
+    Object* toReturn = NULL;
+    Object* temp = &Root;
+    int pIndex = 0;
+    vector<string>pathList = split(path, '/');
+    string final = pathList[pathList.size()-1];
+    string search = pathList[pIndex];
+    vector<Object*>list = temp->getContent();
+    bool found = false;
+    while (!found) {
+        if (search == temp->getName()) {
+            if (temp->getName() == final) {
+                toReturn = temp;
+                cout<<"object found\n";
+                return toReturn;
+            }
+            search = pathList[++pIndex];
+            list = temp->getContent();
+            for (int i =0; i<(temp->getContent()).size(); i++) {
+                if (search == list[i]->getName()) {
+                    temp = list[i];
+                    found = false;
+                    break;
+                }
+                found = true;
+            }
+        }
+        else{
+            break;
+        }
+    }
+    return toReturn;
+}
+
+vector<string> Menu::split(string str, char delimiter) {
+    vector<string> internal;
+    stringstream ss(str); // Turn the string into a stream.
+    string tok;
+
+    while(getline(ss, tok, delimiter)) {
+        internal.push_back(tok);
+    }
+
+    return internal;
 }
