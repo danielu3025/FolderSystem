@@ -47,7 +47,7 @@ Object* Dir::makeCopy(){
     return clone;
 }
 vector<Object *> Dir::getContent(){
-    return content;
+    return  this->content;
 }
 
 void Dir::printToFile(ofstream &of, int space) {
@@ -64,4 +64,9 @@ void Dir::printToFile(ofstream &of, int space) {
     }
     of.close();
 }
+void  Dir::replaceVector (vector<Object*> vec){
+    this->content.clear();
+    this->content = vec;
+}
+
 

@@ -102,6 +102,8 @@ void Menu::program() {
     ObjDirector* director = NULL;
     Object* temp = NULL;
 
+
+    
     while(inSystem){
         printMenu();
         cin >>choice;
@@ -186,6 +188,7 @@ void Menu::program() {
             case '4': {
                 temp = NULL;
                 Object* tempFather = NULL;
+                Object * prototype = NULL;
                 cout<<"enter object to copy:";
                 cin>>location;
                 vector<string> fatherFolderVector;
@@ -194,15 +197,23 @@ void Menu::program() {
                 //copy files to same location
                 temp = findObj(location, root);
                 if (temp != NULL) {
-                    Dir* fatherFolder;
+                   Dir* fatherFolder;
                    tempFather = findObjFather(location, root);
-                
+                    
+                    if (temp->gekind()) {
+                        prototype  = ClonAble::getFileType();
+                    }
+                    else{
+                        prototype = ClonAble::getDirType();
+                    }
+                    prototype = temp->makeCopy();
+
                     if( fatherFolderVector[fatherFolderVector.size()-1] == "ROOT"){
-                        root.setContent(temp->makeCopy());
+                        root.setContent(prototype);
                     }
                     else{
                         fatherFolder=dynamic_cast<Dir*>(tempFather);
-                        fatherFolder->setContent(temp->makeCopy());
+                        fatherFolder->setContent(prototype);
                     }
                 }
                 else{
@@ -214,18 +225,21 @@ void Menu::program() {
                 break;
             }
             case '5': {
-                Object *tempFather = NULL;
+                Dir *tempFather = NULL;
                 vector<Object*> t;
                 temp = NULL;
                 cout << "write location:";
                 cin >> location;
                 if (location != "\"\"" && location != "" && location != "ROOT") {
-                    tempFather = findObjFather(location, root);
+                    tempFather = (Dir*)findObjFather(location, root);
                     temp = findObj(location, root);
-                    t=tempFather->getContent();
+                    t = tempFather->getContent();
+                    tempFather->replaceVector(t);
+                    
                     if (temp == NULL) {
                         cout << "directory not found\n";
                     } else {
+                        
                         for (int i = 0; i < t.size(); i++) {
                             if (t.at(i) == temp) {
                                 if(i == t.size()-1){
@@ -251,7 +265,7 @@ void Menu::program() {
                 cin.ignore();
                 break;
             }
-                case '6':{
+            case '6':{
                     temp = NULL;
                     cout << "write location:";
                     cin >> location;

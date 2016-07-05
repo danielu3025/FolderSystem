@@ -3,9 +3,18 @@
 #include <iostream>
 #include "Menu.h"
 #include <sstream>
+#include <memory>
 
 
 int main(int argc, const char * argv[]) {
+    shared_ptr<int> a(new int(10));
+    a.make_shared(10);
+    shared_ptr<int>x  new shared_ptr<int>;
+    a = x;
+    cout<<x;
+
+    
+    
 /*    Dir root = Root::getInstance();
     Dir *s = new Dir;
     s->setName("shahar");

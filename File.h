@@ -15,5 +15,6 @@ public:
     void deleteObj();
     Object* makeCopy();
     void printToFile(ofstream &of, int space);
+    
 };
 #endif /* File_h */

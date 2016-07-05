@@ -6,11 +6,9 @@
 #include <string>
 #include <vector>
 #include <fstream>
-
-
 using namespace std;
-
 class Object{
+    bool isAfile = false;
 public:
     string name;
     virtual void printToFile(ofstream &os, int space);
@@ -21,7 +19,10 @@ public:
     virtual void deleteObj();
     virtual Object* makeCopy();
     virtual vector<Object*> getContent();
+    virtual bool gekind();
+    virtual void setKind(bool status);
 };
+
 
 
 

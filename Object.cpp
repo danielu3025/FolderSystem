@@ -1,4 +1,6 @@
 #include "Object.h"
+
+
 Object::~Object(){
     
 }
@@ -24,4 +26,9 @@ vector<Object*> Object::getContent(){
 void Object::printToFile(ofstream &os, int space) {
 
 }
-
+void Object::setKind(bool status){
+    isAfile = status;
+}
+bool Object::gekind(){
+    return isAfile;
+}

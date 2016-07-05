@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include "Object.h"
+
 class Dir: public Object{
     vector<Object*> content;
 public:
@@ -16,5 +17,6 @@ public:
     void printToFile(ofstream &os, int space);
     vector<Object *> getContent();
     Object* makeCopy();
+    void replaceVector (vector<Object*> vec);
 };
 #endif /* Dir_h */

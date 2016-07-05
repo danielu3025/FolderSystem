@@ -9,5 +9,4 @@ Dir Root::getInstance()
     return *folder;
 }
 Root::~Root() {
-
 }
