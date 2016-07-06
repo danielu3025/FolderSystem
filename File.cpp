@@ -1,7 +1,6 @@
 #include "File.h"
 File::File(){
     name = "new-file";
-    setKind(true);
 }
 File::~File(){
 }
@@ -13,6 +12,10 @@ string File::getName(){
 }
 void File::setContent(string txt){
     content = txt;
+}
+ClonAble* File::clon(){
+    File* copy =  new File(*this);
+    return copy;
 }
 void File::showContent(int space){
     for(int i=0; i<space; i++){
@@ -33,10 +36,4 @@ void File::printToFile(ofstream &of, int space) {
 
 void File::deleteObj(){
     delete this;
-}
-Object* File::makeCopy(){
-    cout<<"copy "<<this->name<<endl;
-    File* clon = new File(*this);
-    clon->setName(this->name);
-    return clon;
 }

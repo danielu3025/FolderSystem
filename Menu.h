@@ -7,9 +7,6 @@
 #include "File.h"
 #include "ClonAble.h"
 #include "Root.h"
-#include "DirBuilder.h"
-#include "FileBuilder.h"
-#include "ObjDirector.h"
 
 using namespace std;
 
@@ -17,15 +14,27 @@ class Menu {
 private:
     bool inSystem;
     char choice;
-    string location;
-    ofstream myFile;
+    Dir* masterRoot;
+
 public:
-    ~Menu();
-    void setInSystem(bool inSystem);
     Menu();
-    void program();
+   void setInSystem(bool inSystem);
+   void program();
     void printMenu();
+    ~Menu();
 };
+
+class System: public Menu{
+private:
+    System();
+    static Menu* sys;
+public:
+    static Menu getInstance();
+    ~System();
+    
+};
+
+
 
 
 #endif //HW1U_MENU_H

@@ -6,5 +6,6 @@
 class ObjectBuilder{
 public:
     virtual Object* getObj()=0;
+    
 };
 #endif /* ObjectBuilder_h */

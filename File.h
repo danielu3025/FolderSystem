@@ -13,7 +13,7 @@ public:
     void setContent(string txt);
     void showContent(int space);
     void deleteObj();
-    Object* makeCopy();
     void printToFile(ofstream &of, int space);
+    ClonAble* clon();
 };
 #endif /* File_h */

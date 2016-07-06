@@ -4,9 +4,21 @@
 #include "Root.h"
 #include <string>
 #include <exception>
+#include "PrototypeMaker.h"
 
-Object* ClonAble::dirType = 0;
-Object* ClonAble::fileType = 0;
+
+ClonAble* PrototypeMaker::dirPrototype=0;
+ClonAble* PrototypeMaker::filePrototype=0;
+
+Menu* System::sys =0;
+Menu System::getInstance(){
+    if (!sys) {
+        sys = new Menu();
+        
+    }
+    return *sys;
+}
+
 vector<string>split(string str, char delimiter) {
     vector<string> internal;
     stringstream ss(str); // Turn the string into a stream.
@@ -51,7 +63,6 @@ Object* findObj(string path,Dir Root){
     }
     return toReturn;
 }
-
 Object* findObjFather(string path,Dir Root){
     Object* toReturn = NULL;
     Object* temp = &Root;
@@ -86,29 +97,30 @@ Object* findObjFather(string path,Dir Root){
     }
     return toReturn;
 }
-
-
 void Menu::setInSystem(bool inSystem) {
     this->inSystem = inSystem;
 }
 Menu::Menu() {
     setInSystem(true);
+    masterRoot = new Root();
+    masterRoot->setName("ROOT");
 }
-
 //program main function. the whole menu will run here
 void Menu::program() {
-    Dir root = Root::getInstance();
-    ClonAble::initialize();
-    ObjDirector* director = NULL;
-    Object* temp = NULL;
 
-    while(inSystem){
+    string location;
+    ofstream myFile;
+    Dir* root  = masterRoot;
+    PrototypeMaker::initialize();
+    Object* prototype = NULL;
+    Object* temp = NULL;
+    while((this->inSystem)){
         printMenu();
         cin >>choice;
         switch(choice){
             case '1': {
                 cout << "Bye...\n";
-                inSystem = false;
+                inSystem = true;
                 cin.clear();
                 cin.ignore();
                 break;
@@ -116,21 +128,22 @@ void Menu::program() {
             case '2':{
                 temp = NULL;
                 cout << "Please write location to create directory or leave empty\n";
-                cin >> location;
+                cin >>location;
                 if (location != "\"\"" && location != "" && location != "ROOT") {
-                    temp = findObj(location, root);
+                    temp = findObj(location, *root);
                     if (temp == NULL) {
                         cout << "directory not found\n";
                     }
                     else {
                         try {
                             Dir *tempFolder = dynamic_cast<Dir *>(temp);
-                            DirBuilder *dirBuilder = new (DirBuilder);
-                            director = new ObjDirector(dirBuilder);
-                            if (!(tempFolder->setContent(director->getObj()))) {
+                            prototype = (Object*)PrototypeMaker::getDirType();
+                            if (!tempFolder->setContent(prototype)) {
                                 cout << "problem  while creating\n";
                             }
                             else {
+                                cout<< "enter folderName:";
+                                cin>>prototype->name ;
                                 cout << "success\n";
                             }
                         }
@@ -140,9 +153,11 @@ void Menu::program() {
                     }
                 }
                 else {
-                    DirBuilder *dirBuilder = new (DirBuilder);
-                    director = new ObjDirector(dirBuilder);
-                    root.setContent(director->getObj());
+                    prototype = (Object*)PrototypeMaker::getDirType();
+                    root->setContent(prototype);
+                    cout<< "enter folderName:";
+                    cin>>prototype->name ;
+                    cout << "success\n";
                 }
                 cin.clear();
                 cin.ignore();
@@ -153,19 +168,20 @@ void Menu::program() {
                 cout << "Please write location to create directory or leave empty\n";
                 cin >> location;
                 if (location != "\"\"" && location != "" && location != "ROOT") {
-                    temp = findObj(location, root);
+                    temp = findObj(location, *root);
                     if (temp == NULL) {
                         cout << "directory not found\n";
                     }
                     else {
                         try {
                             Dir *tempFolder = dynamic_cast<Dir *>(temp);
-                            FileBuilder *fileBuilder = new (FileBuilder);
-                            director = new ObjDirector(fileBuilder);
-                            if (!(tempFolder->setContent(director->getObj()))) {
+                            prototype = (Object*)PrototypeMaker::getFileType();
+                            if (!tempFolder->setContent(prototype)) {
                                 cout << "problem  while creating\n";
                             }
                             else {
+                                cout<< "enter file name:";
+                                cin>>prototype->name ;
                                 cout << "success\n";
                             }
                         }
@@ -175,9 +191,11 @@ void Menu::program() {
                     }
                 }
                 else {
-                    FileBuilder *fileBuilder = new (FileBuilder);
-                    director = new ObjDirector(fileBuilder);
-                    root.setContent(director->getObj());
+                    prototype = (Object*)PrototypeMaker::getFileType();
+                    root->setContent(prototype);
+                    cout<< "enter folder name:";
+                    cin>>prototype->name ;
+                    cout << "success\n";
                 }
                 cin.clear();
                 cin.ignore();
@@ -186,37 +204,34 @@ void Menu::program() {
             case '4': {
                 temp = NULL;
                 Object* tempFather = NULL;
-                Object * prototype = NULL;
                 cout<<"enter object to copy:";
                 cin>>location;
                 vector<string> fatherFolderVector;
                 fatherFolderVector  = split(location, '/');
                 fatherFolderVector.pop_back();
                 //copy files to same location
-                temp = findObj(location, root);
+                temp = findObj(location, *root);
                 if (temp != NULL) {
                     Dir* fatherFolder;
-                    tempFather = findObjFather(location, root);
-
-                    if (temp->gekind()) {
-                        prototype  = ClonAble::getFileType();
-                    }
-                    else{
-                        prototype = ClonAble::getDirType();
-                    }
-
-                    prototype = temp->makeCopy();
-                
+                    tempFather = findObjFather(location, *root);
                     if( fatherFolderVector[fatherFolderVector.size()-1] == "ROOT"){
-                        root.setContent(prototype);
+                        prototype = ((Object*)temp->clon());
+                        root->setContent(prototype);
+                        cout<< "enter object name:";
+                        cin>>prototype->name ;
+                        cout << "success\n";
                     }
                     else{
+                        prototype = ((Object*)temp->clon());
                         fatherFolder=dynamic_cast<Dir*>(tempFather);
                         fatherFolder->setContent(prototype);
+                        cout<< "enter object name:";
+                        cin>>prototype->name ;
+                        cout << "success\n";
                     }
                 }
                 else{
-                    cout <<"object not found";
+                    cout <<"object not found\n";
                 }
                 //add obj pointer to file/dir name
                 cin.clear();
@@ -231,8 +246,8 @@ void Menu::program() {
                 cin >> location;
                 if (location != "\"\"" && location != "" && location != "ROOT") {
                     //what happen if written wrong location
-                    tempFather = (Dir*)findObjFather(location, root);
-                    temp = findObj(location, root);
+                    tempFather = (Dir*)findObjFather(location, *root);
+                    temp = findObj(location, *root);
                     t=tempFather->getContent();
                     if (temp == NULL) {
                         cout << "directory not found\n";
@@ -256,8 +271,8 @@ void Menu::program() {
                         temp->deleteObj();
                     }
                 } else {
-                    cout << root.getName() << " is deleted\n";
-                    root.deleteObj();
+                    cout << root->getName() << " is deleted\n";
+                    root->deleteObj();
                 }
                 cin.clear();
                 cin.ignore();
@@ -268,14 +283,14 @@ void Menu::program() {
                     cout << "write location:";
                     cin >> location;
                     if (location != "\"\"" && location != "" && location != "ROOT") {
-                        temp = findObj(location, root);
+                        temp = findObj(location, *root);
                         if (temp == NULL) {
                             cout << "directory not found\n";
                         }else{
                             temp->showContent(0);
                         }
                     }else {
-                        root.showContent(0);
+                        root->showContent(0);
                     }
                     cin.clear();
                     cin.ignore();
@@ -284,7 +299,7 @@ void Menu::program() {
             case '7': {
                 myFile.open("systemContent.txt",myFile.trunc);
                 myFile.close();
-                root.printToFile(myFile, 0);
+                root->printToFile(myFile, 0);
                 break;
             }
             default:
@@ -299,7 +314,6 @@ void Menu::program() {
 }
 Menu::~Menu(){
 }
-
 void Menu::printMenu() {
         cout << "*******************************\n";
         cout << "Hello!\n";
@@ -312,3 +326,14 @@ void Menu::printMenu() {
         cout << " 7 - print root and children's content to file.\n";
         cout << "what do you wish to do?\n";
 }
+
+
+
+System::~System(){
+    
+}
+System::System(){
+}
+
+
+
