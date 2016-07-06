@@ -56,17 +56,14 @@ int main(int argc, const char * argv[]) {
     Object* realFolder = manger->getObj();
     
     realFolder->setName("mydoc");
-     
+ 
     */
-    
-    Menu foldersystem ;
-    foldersystem.program();
     //Dir rooti = Root::getInstance();
    // Object* zibi = &rooti;
    // Dir* f ;
    // f = dynamic_cast<Dir*>(zibi);
-    
-    
+    System folders = Menu::getInstance();
+
     
     
     return 0;

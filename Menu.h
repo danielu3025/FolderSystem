@@ -7,25 +7,31 @@
 #include "File.h"
 #include "ClonAble.h"
 #include "Root.h"
-#include "DirBuilder.h"
-#include "FileBuilder.h"
-#include "ObjDirector.h"
 
 using namespace std;
+class System{
+public:
+    ~System();
+    virtual void program();
 
-class Menu {
+};
+class Menu{
 private:
+    Menu();
+    static System* sys;
     bool inSystem;
     char choice;
     string location;
     ofstream myFile;
 public:
-    ~Menu();
     void setInSystem(bool inSystem);
-    Menu();
     void program();
     void printMenu();
+    static System getInstance();
+    inline~Menu();
 };
+
+
 
 
 #endif //HW1U_MENU_H

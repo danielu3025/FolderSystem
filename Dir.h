@@ -16,6 +16,7 @@ public:
     void printToFile(ofstream &os, int space);
     vector<Object *> getContent();
     void replaceVec(vector<Object*> vec);
-    Object* makeCopy();
+    ClonAble* clon();
+
 };
 #endif /* Dir_h */

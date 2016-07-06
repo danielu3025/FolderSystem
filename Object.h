@@ -6,13 +6,13 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include "ClonAble.h"
 
 
 using namespace std;
 
-class Object{
+class Object : public ClonAble{
 public:
-    bool isAfile = false;
     string name;
     virtual void printToFile(ofstream &os, int space);
     virtual ~Object();
@@ -20,10 +20,9 @@ public:
     virtual string getName();
     virtual void showContent(int space);
     virtual void deleteObj();
-    virtual Object* makeCopy();
     virtual vector<Object*> getContent();
-    virtual bool gekind();
-    virtual void setKind(bool status);
+    virtual ClonAble* clon();
+    
 };
 
 

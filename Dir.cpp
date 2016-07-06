@@ -38,14 +38,15 @@ void Dir::deleteObj(){
         delete this;
     }
 }
-Object* Dir::makeCopy(){
-    cout<<"copy "<<this->name<<"\n";
-    Dir* clone =  new Dir(*this);
-    clone->setName(this->getName());
+
+ClonAble* Dir::clon(){
+    Dir* copy =  new Dir(*this);
+    cout<<"enter folder name:";
+    cin>>copy->name;
     for (int i = 0; i < content.size(); i++){
-        content[i]->makeCopy();
+        content[i]->clon();
     }
-    return clone;
+    return copy;
 }
 vector<Object *> Dir::getContent(){
     return content;

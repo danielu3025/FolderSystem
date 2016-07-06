@@ -13,9 +13,6 @@ void Object::showContent(int space){
 }
 void Object::deleteObj(){
 }
-Object* Object::makeCopy(){
-    return nullptr  ;
-}
 vector<Object*> Object::getContent(){
     vector<Object*>x;
     return x;
@@ -24,9 +21,7 @@ vector<Object*> Object::getContent(){
 void Object::printToFile(ofstream &os, int space) {
 
 }
-void Object::setKind(bool status){
-    isAfile = status;
-}
-bool Object::gekind(){
-    return isAfile;
+
+ClonAble* Object::clon(){
+    return this;
 }
